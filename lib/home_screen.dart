@@ -1,25 +1,54 @@
 // stateless  statefl
 
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-// colors.red
-// Color(0xffhex)
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:p1/result_screen.dart';
+
+import 'colors.dart';
+
+// statful
+// context
+// rebuild setstate
+// nav\
+// screen
+// 5 state
+//
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int sliderActiveColor = 0xff6900ec;
+
+  int sliderInActiveColor = 0xffc484fa;
+
+  double height = 80.0;
+
+  int age = 10;
+
+  double wieght = 50.0;
+
+  bool isMale = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // action
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    int color = 0xff181f38;
-    int backgroundColor = 0xff080e21;
-    int sliderActiveColor = 0xff6900ec;
-    int sliderInActiveColor = 0xffc484fa;
-    double sliderValue = 100;
     return Scaffold(
       backgroundColor: Color(backgroundColor),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(color),
-        title: Text(
+        title: const Text(
           'BMI Calculator',
           style: TextStyle(
             fontSize: 25,
@@ -33,61 +62,76 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 159,
-                    width: 139,
-                    decoration: BoxDecoration(
-                      color: Color(color),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          Icons.male,
-                          color: Colors.white,
-                          size: 70,
-                        ),
-                        Text(
-                          'Male',
-                          style: TextStyle(
-                            fontSize: 25,
+                  // onTap
+                  GestureDetector(
+                    child: Container(
+                      height: 159,
+                      width: 139,
+                      decoration: BoxDecoration(
+                        color: isMale ? Colors.blue : Color(color),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.male,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            size: 70,
                           ),
-                        ),
-                      ],
+                          Text(
+                            'Male',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      setState(() {
+                        isMale = true;
+                      });
+                    },
                   ),
-                  Container(
-                    height: 159,
-                    width: 139,
-                    decoration: BoxDecoration(
-                      color: Color(color),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          Icons.female,
-                          color: Colors.white,
-                          size: 70,
-                        ),
-                        Text(
-                          'Female',
-                          style: TextStyle(
-                            fontSize: 25,
+                  GestureDetector(
+                    child: Container(
+                      height: 159,
+                      width: 139,
+                      decoration: BoxDecoration(
+                        color: isMale ? Color(color) : Colors.pink,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.female,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            size: 70,
                           ),
-                        ),
-                      ],
+                          Text(
+                            'Female',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      setState(() {
+                        isMale = false;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -102,7 +146,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -122,22 +166,43 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${height.round()}',
+                        style: const TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'cm',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                   Slider(
-                    value: sliderValue,
-                    min: 1,
-                    max: 200,
-                    label: '$sliderValue',
-                    activeColor: Color(sliderActiveColor),
-                    inactiveColor: Color(sliderInActiveColor),
+                    min: 80,
+                    max: 220,
+                    activeColor: isMale ? Colors.blue : Colors.pink,
                     onChanged: (value) {
-                      print(value.round());
+                      // height
+                      setState(() {
+                        height = value;
+                      }); //
                     },
-                  )
+                    value: height,
+                  ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -151,7 +216,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        const Text(
                           'WIEGHT',
                           style: TextStyle(
                             fontSize: 25,
@@ -160,8 +225,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '65',
-                          style: TextStyle(
+                          '${wieght.round()}',
+                          style: const TextStyle(
                             fontSize: 25,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -170,30 +235,44 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 50,
                               height: 45,
                               child: FloatingActionButton(
-                                onPressed: () {},
+                                heroTag: 'b2',
+                                onPressed: () {
+                                  setState(() {
+                                    // we = 50+1
+                                    // we = 51 + 1
+                                    wieght++;
+                                    print(wieght);
+                                  });
+                                },
+                                backgroundColor: const Color(0xffe5e5e5),
                                 child: Icon(
                                   Icons.add,
                                   size: 35,
                                   color: Color(backgroundColor),
                                 ),
-                                backgroundColor: Color(0xffe5e5e5),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 50,
                               height: 45,
                               child: FloatingActionButton(
-                                onPressed: () {},
+                                heroTag: 'b1',
+                                onPressed: () {
+                                  setState(() {
+                                    wieght--;
+                                    print(wieght);
+                                  });
+                                },
+                                backgroundColor: const Color(0xffe5e5e5),
                                 child: Icon(
-                                  Icons.minimize,
+                                  Icons.remove,
                                   size: 35,
                                   color: Color(backgroundColor),
                                 ),
-                                backgroundColor: Color(0xffe5e5e5),
                               ),
                             ),
                           ],
@@ -211,7 +290,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        const Text(
                           'Age',
                           style: TextStyle(
                             fontSize: 25,
@@ -220,7 +299,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '20',
+                          '$age',
                           style: TextStyle(
                             fontSize: 25,
                             color: Colors.white,
@@ -230,30 +309,40 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 50,
                               height: 45,
                               child: FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                    print(age);
+                                  });
+                                },
+                                backgroundColor: const Color(0xffe5e5e5),
                                 child: Icon(
                                   Icons.add,
                                   size: 35,
                                   color: Color(backgroundColor),
                                 ),
-                                backgroundColor: Color(0xffe5e5e5),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 50,
                               height: 45,
                               child: FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    age--;
+                                    print(age);
+                                  });
+                                },
+                                backgroundColor: Color(0xffe5e5e5),
                                 child: Icon(
-                                  Icons.minimize,
+                                  Icons.remove,
                                   size: 35,
                                   color: Color(backgroundColor),
                                 ),
-                                backgroundColor: Color(0xffe5e5e5),
                               ),
                             ),
                           ],
@@ -268,14 +357,22 @@ class HomeScreen extends StatelessWidget {
               width: double.infinity,
               height: 65,
               decoration: BoxDecoration(
-                color: Colors.pink,
+                color: isMale ? Colors.blue : Colors.pink,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextButton(
                 onPressed: () {
-                  print('00000');
+                  // context => home
+                  var result = wieght / pow(height, 2);
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ResultScreen(
+                      result: result,
+                    );
+                  }));
+                  print(result);
                 },
-                child: Text(
+                child: const Text(
                   'CALCULATE',
                   style: TextStyle(
                     fontSize: 25,
@@ -291,3 +388,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+// bmi
+// bmi = weight / pow(height , 2)
